@@ -14,11 +14,13 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+# lib/
 lib64/
 parts/
 sdist/
 var/
+test_results/
+logs/
 wheels/
 pip-wheel-metadata/
 share/python-wheels/
