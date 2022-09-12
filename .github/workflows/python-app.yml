@@ -19,6 +19,7 @@ jobs:
 
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_ICON: https://cdn-icons-png.flaticon.com/512/4712/4712139.png
 
     steps:
     - uses: actions/checkout@v3
