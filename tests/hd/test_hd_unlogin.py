@@ -64,3 +64,24 @@ class TestHDUnlogin(BaseCase):
             ],
             0
             )
+
+
+    def test_hd_get_last_articles(self):
+        for article_id in range(1, 11, 2):
+            response = MyRequests.get(f"api/happifiers/{article_id}/")
+            if response.status_code == 200:
+                Assertions.assert_code_status(response, 200)
+
+                # response_as_dict = response.json()[0]
+                print(response.status_code)
+                print(article_id)
+                print(type(response))
+                # Assertions.assert_json_has_keys(
+                #     response,
+                #     [
+                #         "id",
+                #         "ad_position",
+                #     ],
+                #     0
+                #     )
+                break
