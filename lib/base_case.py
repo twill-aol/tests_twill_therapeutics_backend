@@ -4,6 +4,16 @@ from requests import Response
 
 
 class BaseCase:
+
+    @classmethod
+    def response_to_json(cls, response):
+        try:
+            response_as_dict = response.json()
+        except json.JSONDecodeError:
+            assert False, f"Response is not in JSON format. Response text is {response.text}"
+        return response_as_dict
+
+
     def get_cookie(self, response: Response, cookie_name):
         assert cookie_name in response.cookies, f"Cannot find cookie with name {cookie_name} in the last response"
         return response.cookies[cookie_name]

@@ -4,6 +4,7 @@ from lib.my_requests import MyRequests
 
 
 class TestHDUnlogin(BaseCase):
+
     def test_hd_get_last_article(self):
         response = MyRequests.get("/happifiers/daily/")
 
@@ -125,15 +126,6 @@ class TestHDUnlogin(BaseCase):
 
         Assertions.assert_code_status(response, 200)
         Assertions.assert_length_of_json(response, count_of_articles_param, f"Response does not contain {count_of_articles_param} keys")
-        # Assertions.assert_json_has_keys(
-        #     response,
-        #     [
-        #         "0",
-        #         "1",
-        #         "2",
-        #         "3",
-        #         "4"
-        #     ],
-        #     )
+
 
 
