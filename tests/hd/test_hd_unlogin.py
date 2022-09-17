@@ -71,7 +71,6 @@ class TestHDUnlogin(BaseCase):
             response = MyRequests.get(f"/happifiers/{article_id}/")
             if response.status_code == 200:
                 Assertions.assert_code_status(response, 200)
-                print('hello')
                 Assertions.assert_json_has_keys(
                     response,
                     [
