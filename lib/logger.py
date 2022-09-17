@@ -7,7 +7,7 @@ from requests import Response
 class Logger:
     file_name = f"lib/logs/log_" + str(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")) + ".log"
 
-    @classmethod # можно обращаться к переменным класса через cls
+    @classmethod
     def _write_log_to_file(cls, data: str):
         with open(cls.file_name, 'a+', encoding='utf-8') as logger_file:
             logger_file.write(data)

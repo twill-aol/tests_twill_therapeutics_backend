@@ -117,3 +117,23 @@ class TestHDUnlogin(BaseCase):
                     ],
                     )
                 break
+
+
+    def test_hd_get_count_of_topics(self):
+        count_of_articles_param = 5
+        response = MyRequests.get(f"/happifiers/?page=1&page_size={count_of_articles_param}")
+
+        Assertions.assert_code_status(response, 200)
+        Assertions.assert_length_of_json(response, count_of_articles_param, f"Response does not contain {count_of_articles_param} keys")
+        # Assertions.assert_json_has_keys(
+        #     response,
+        #     [
+        #         "0",
+        #         "1",
+        #         "2",
+        #         "3",
+        #         "4"
+        #     ],
+        #     )
+
+
