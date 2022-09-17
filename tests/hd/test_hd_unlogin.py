@@ -1,6 +1,6 @@
-from lib.assertions import Assertions
-from lib.base_case import BaseCase
-from lib.my_requests import MyRequests
+import Assertions
+import BaseCase
+import MyRequests
 
 
 class TestHDUnlogin(BaseCase):
