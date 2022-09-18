@@ -20,6 +20,7 @@ jobs:
 
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      PERSONAL_TOKEN_ALTAIR: ${{ secrets.PERSONAL_TOKEN_ALTAIR }}
       SLACK_ICON: https://cdn-icons-png.flaticon.com/512/4712/4712139.png
 
 
@@ -79,6 +80,6 @@ jobs:
       if: always()
       uses: peaceiris/actions-gh-pages@v2
       env:
-        # PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN_ALTAIR }}
         PUBLISH_BRANCH: gh-pages
         PUBLISH_DIR: allure-history
