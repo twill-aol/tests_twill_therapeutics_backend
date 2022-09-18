@@ -16,6 +16,8 @@ dist/
 downloads/
 eggs/
 .eggs/
+logs/
+test_results/
 # lib/
 lib64/
 parts/
