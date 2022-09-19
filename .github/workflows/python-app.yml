@@ -92,6 +92,6 @@ jobs:
         # ${{ steps.test-run.outcome }}
         message: |+
           STATUS: ${{ job.status }}.
-          [I'm an inline-style link](https://www.google.com)
-          ► Allure report - https://twill-aol.github.io/tests_twill_therapeutics_backend/
+          ► Allure report: https://twill-aol.github.io/tests_twill_therapeutics_backend/
+          Action builds: https://github.com/twill-aol/tests_twill_therapeutics_backend/actions?query=workflow:Python%20application
       if: always()
