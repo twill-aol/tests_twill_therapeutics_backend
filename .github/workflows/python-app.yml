@@ -34,6 +34,7 @@ jobs:
           python3 -m pip install --upgrade pip
           pip install flake8
           flake8
+
   autotests:
     needs: linter
     runs-on: ubuntu-latest
