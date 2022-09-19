@@ -6,7 +6,6 @@ from lib.my_requests import MyRequests
 
 @allure.epic("[HD] No Authorization cases")
 class TestHDUnlogin(BaseCase):
-
     @allure.description("This test checks /daily api")
     def test_hd_get_last_article(self):
         response = MyRequests.get("/happifiers/daily/")
@@ -49,7 +48,6 @@ class TestHDUnlogin(BaseCase):
             ],
         )
 
-
     @allure.description("This test checks /topics api")
     def test_hd_get_topics(self):
         response = MyRequests.get("/happifiers/topics/")
@@ -65,11 +63,10 @@ class TestHDUnlogin(BaseCase):
                 "name",
                 "description",
                 "parent_name",
-                "type"
+                "type",
             ],
-            0
-            )
-
+            0,
+        )
 
     @allure.description("This test checks /happifiers/[id] api")
     def test_hd_get_last_articles(self):
@@ -119,18 +116,21 @@ class TestHDUnlogin(BaseCase):
                         "audio_duration",
                         "publish_at",
                         "audio_url",
-                        "video_url"
+                        "video_url",
                     ],
-                    )
+                )
                 break
-
 
     @allure.description("This test checks /happifiers+params api")
     def test_hd_get_count_of_topics(self):
         count_of_articles_param = 5
-        response = MyRequests.get(f"/happifiers/?page=1&page_size={count_of_articles_param}")
+        response = MyRequests.get(
+            f"/happifiers/?page=1&page_size={count_of_articles_param}"
+        )
 
         Assertions.assert_code_status(response, 200)
-        Assertions.assert_length_of_json(response, count_of_articles_param, f"Response does not contain {count_of_articles_param} keys")
-
-
+        Assertions.assert_length_of_json(
+            response,
+            count_of_articles_param,
+            f"Response does not contain {count_of_articles_param} keys",
+        )
