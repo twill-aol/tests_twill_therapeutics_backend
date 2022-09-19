@@ -1,5 +1,3 @@
-import json
-
 from lib.base_case import BaseCase
 from requests import Response
 
@@ -11,14 +9,16 @@ class Assertions:
     ):
         response_as_dict = BaseCase.response_to_json(response)
 
-        assert name in response_as_dict, f"Response JSON doesn't have key '{name}'"
+        assert name in response_as_dict, \
+            f"Response JSON doesn't have key '{name}'"
         assert response_as_dict[name] == expected_value, error_message
 
     @staticmethod
     def assert_json_has_key(response: Response, name):
         response_as_dict = BaseCase.response_to_json(response)
 
-        assert name in response_as_dict, f"Response JSON doesn't have key {name}"
+        assert name in response_as_dict, \
+            f"Response JSON doesn't have key {name}"
 
     @staticmethod
     def assert_json_has_keys(response: Response, names: list, index=None):
@@ -27,7 +27,8 @@ class Assertions:
         else:
             response_as_dict = BaseCase.response_to_json(response)[0]
         for name in names:
-            assert name in response_as_dict, f"Response JSON doesn't have key {name}"
+            assert name in response_as_dict, \
+                f"Response JSON doesn't have key {name}"
 
     @staticmethod
     def assert_json_has_no_key(response: Response, name):
@@ -42,10 +43,15 @@ class Assertions:
 
         assert (
             response.status_code == expected_status_code
-        ), f"Unexpected status code! Expected: {expected_status_code}. Actual: {response.status_code}"
+        ), f"Unexpected status code! Expected: {expected_status_code}. \
+            Actual: {response.status_code}"
 
     @staticmethod
-    def assert_length_of_json(response: Response, expected_length, error_message):
+    def assert_length_of_json(
+        response: Response,
+        expected_length,
+        error_message
+    ):
         response_as_dict = BaseCase.response_to_json(response)
         len_of_json_answer = len(response_as_dict)
 

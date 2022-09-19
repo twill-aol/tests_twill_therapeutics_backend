@@ -11,7 +11,8 @@ class BaseCase:
         except json.JSONDecodeError:
             assert (
                 False
-            ), f"Response is not in JSON format. Response text is {response.text}"
+            ), f"Response is not in JSON format. \
+                Response text is {response.text}"
         return response_as_dict
 
     def get_cookie(self, response: Response, cookie_name):
@@ -23,7 +24,8 @@ class BaseCase:
     def get_header(self, response: Response, headers_name):
         assert (
             headers_name in response.headers
-        ), f"Cannot find header with the name {headers_name} in the last response"
+        ), f"Cannot find header with the name {headers_name} \
+            in the last response"
         return response.headers[headers_name]
 
     def get_json_value(self, response: Response, name):
@@ -32,9 +34,11 @@ class BaseCase:
         except json.decoder.JSONDecoderError:
             assert (
                 False
-            ), f"Response is not in JSON-format. Response text is '{response.text}'"
+            ), f"Response is not in JSON-format. \
+                Response text is '{response.text}'"
 
-        assert name in response_as_dict, "Response JSON does not have key '{name}'"
+        assert name in response_as_dict, \
+            "Response JSON does not have key '{name}'"
         return response_as_dict[name]
 
     def prepare_registration_data(self, email=None):
