@@ -36,6 +36,9 @@ jobs:
           flake8
 
   autotests:
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_ICON: https://cdn-icons-png.flaticon.com/512/4712/4712139.png
     needs: linter
     runs-on: ubuntu-latest
     steps:
@@ -77,13 +80,6 @@ jobs:
           PUBLISH_BRANCH: gh-pages
           PUBLISH_DIR: allure-history
 
-  send_message:
-    env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      SLACK_ICON: https://cdn-icons-png.flaticon.com/512/4712/4712139.png
-    needs: autotests
-    runs-on: ubuntu-latest
-    steps:
       - name: Slack Notification
         uses: act10ns/slack@v1
         with:
