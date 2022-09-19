@@ -53,9 +53,6 @@ jobs:
 
     - name: Test with pytest
       id: test-run
-      with:
-        ref: gh-pages
-        path: gh-pages
       run: |
         python -m pytest -s --alluredir=gh-pages tests
         # python -m pytest -s tests/
