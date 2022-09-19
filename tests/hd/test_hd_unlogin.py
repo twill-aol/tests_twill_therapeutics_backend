@@ -6,6 +6,7 @@ from lib.my_requests import MyRequests
 
 @allure.epic("[HD] No Authorization cases")
 class TestHDUnlogin(BaseCase):
+
     @allure.label("HD", "unlogin")
     @allure.description("This test checks /daily api")
     def test_hd_get_last_article(self):
@@ -49,6 +50,7 @@ class TestHDUnlogin(BaseCase):
             ],
         )
 
+    @allure.label("HD", "unlogin")
     @allure.description("This test checks /topics api")
     def test_hd_get_topics(self):
         response = MyRequests.get("/happifiers/topics/")
@@ -69,6 +71,7 @@ class TestHDUnlogin(BaseCase):
             0,
         )
 
+    @allure.label("HD", "unlogin")
     @allure.description("This test checks /happifiers/[id] api")
     def test_hd_get_last_articles(self):
         for article_id in range(1, 11, 2):
@@ -122,6 +125,7 @@ class TestHDUnlogin(BaseCase):
                 )
                 break
 
+    @allure.label("HD")
     @allure.description("This test checks /happifiers+params api")
     def test_hd_get_count_of_topics(self):
         count_of_articles_param = 5
