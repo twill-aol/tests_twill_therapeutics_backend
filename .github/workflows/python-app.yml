@@ -49,6 +49,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
     - name: Test with pytest
+      id: test-run
       run: |
         python -m pytest -s tests/
         # pytest
@@ -57,6 +58,7 @@ jobs:
     - name: Get Allure history
       uses: actions/checkout@v2
       if: always()
+      id: allure-get-history
       continue-on-error: true
       with:
         ref: gh-pages
