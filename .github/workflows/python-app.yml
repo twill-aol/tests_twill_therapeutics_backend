@@ -78,19 +78,20 @@ jobs:
           PUBLISH_DIR: allure-history
 
   send_message:
-    # needs: autotests
-    # runs-on: ubuntu-latest
-    - name: Slack Notification
-      uses: act10ns/slack@v1
-      with:
-        status: ${{ job.status }}
-        steps: ${{ toJson(steps) }}
-        channel: '#bot-qa-automation'
-        # ${{ steps.test-run.outcome }}
-        message: |+
-          STATUS: ${{ job.status }}.
-          ► Allure report: https://twill-aol.github.io/tests_twill_therapeutics_backend/
+    needs: autotests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Slack Notification
+        uses: act10ns/slack@v1
+        with:
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+          channel: '#bot-qa-automation'
+          # ${{ steps.test-run.outcome }}
+          message: |+
+            STATUS: ${{ job.status }}.
+            ► Allure report: https://twill-aol.github.io/tests_twill_therapeutics_backend/
 
-          Action builds: https://github.com/twill-aol/tests_twill_therapeutics_backend/actions/workflows/python-app.yml
-          Workflow: ${{ github.workflow }}
-      if: always()
+            Action builds: https://github.com/twill-aol/tests_twill_therapeutics_backend/actions/workflows/python-app.yml
+            Workflow: ${{ github.workflow }}
+        if: always()
