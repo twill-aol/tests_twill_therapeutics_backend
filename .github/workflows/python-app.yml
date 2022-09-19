@@ -23,6 +23,11 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      PERSONAL_TOKEN_ALTAIR: ${{ secrets.PERSONAL_TOKEN_ALTAIR }}
+      SLACK_ICON: https://cdn-icons-png.flaticon.com/512/4712/4712139.png
+
 
     steps:
     - uses: actions/checkout@v3
@@ -38,14 +43,6 @@ jobs:
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-jobs:
-  tests:
-    env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      PERSONAL_TOKEN_ALTAIR: ${{ secrets.PERSONAL_TOKEN_ALTAIR }}
-      SLACK_ICON: https://cdn-icons-png.flaticon.com/512/4712/4712139.png
-
-
     - name: Lint with flake8
       id: flake8
       run: |
@@ -56,8 +53,12 @@ jobs:
 
     - name: Test with pytest
       id: test-run
+      with:
+        ref: gh-pages
+        path: gh-pages
       run: |
-        python -m pytest -s tests/
+        python -m pytest -s --alluredir=gh-pages tests
+        # python -m pytest -s tests/
         # pytest
         # pytest --alluredir=test_results/ tests/test_user_auth.py
 
@@ -100,6 +101,5 @@ jobs:
           STATUS: ${{ job.status }}.
           ► Allure report: https://twill-aol.github.io/tests_twill_therapeutics_backend/
 
-          Action builds: https://github.com/twill-aol/tests_twill_therapeutics_backend/actions
+          Action builds: https://github.com/twill-aol/tests_twill_therapeutics_backend/actions/workflows/python-app.yml
       if: always()
-
