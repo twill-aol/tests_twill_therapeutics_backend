@@ -88,5 +88,5 @@ jobs:
         status: ${{ job.status }}
         steps: ${{ toJson(steps) }}
         channel: '#bot-qa-automation'
-        message: ${{ icon jobStatus }} ${{ job.status }}. Allure report - https://twill-aol.github.io/tests_twill_therapeutics_backend/
+        message: ${{ job.status }}. Allure report - https://twill-aol.github.io/tests_twill_therapeutics_backend/
       if: always()
