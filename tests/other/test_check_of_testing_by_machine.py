@@ -6,4 +6,4 @@ import requests
 class TestCheckOfTestingByMachine:
     
     def test_logic(self):
-        assert 1, "Test Machine does not work"
+        assert 1 == 2, "Test Machine does not work"
