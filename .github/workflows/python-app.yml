@@ -78,7 +78,7 @@ jobs:
           PUBLISH_DIR: allure-history
 
   send_message:
-    needs: autotests
+    # needs: autotests
     # runs-on: ubuntu-latest
     - name: Slack Notification
       uses: act10ns/slack@v1
