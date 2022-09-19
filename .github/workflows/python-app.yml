@@ -55,7 +55,6 @@ jobs:
         # pytest --alluredir=test_results/ tests/test_user_auth.py
 
     - name: Get Allure history
-    - id: get-allure-history
       uses: actions/checkout@v2
       if: always()
       continue-on-error: true
@@ -87,5 +86,4 @@ jobs:
         status: ${{ job.status }}
         steps: ${{ toJson(steps) }}
         channel: '#bot-qa-automation'
-        # message: Allure report - https://twill-aol.github.io/tests_twill_therapeutics_backend/
       if: always()
