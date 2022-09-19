@@ -5,7 +5,7 @@ from requests import Response
 
 class BaseCase:
     @classmethod
-    def response_to_json(cls, response):
+    def response_to_json(cls, response: Response):
         try:
             response_as_dict = response.json()
         except json.JSONDecodeError:
