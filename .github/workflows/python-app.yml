@@ -3,8 +3,6 @@
 
 name: Python application
 
-
-
 on:
   push:
     id: push
@@ -16,77 +14,70 @@ permissions:
   contents: write
   pull-requests: write
 
-
-
 jobs:
-  build:
-
+  linter:
     runs-on: ubuntu-latest
-
-    env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      PERSONAL_TOKEN_ALTAIR: ${{ secrets.PERSONAL_TOKEN_ALTAIR }}
-      SLACK_ICON: https://cdn-icons-png.flaticon.com/512/4712/4712139.png
-
-
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
+        env:
+          GIT_TRACE: 1
+          GIT_CURL_VERBOSE: 1
 
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.10"
+      - name: Set up Python 3.x
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install flake8 pytest
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Check code style
+        if: always()
+        run: |
+          python3 -m pip install --upgrade pip
+          pip install flake8
+          flake8
+  autotests:
+    needs: linter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.x
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
 
-    - name: Lint with flake8
-      id: flake8
-      run: |
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run Test
+        if: always()
+        run: python -m pytest --alluredir=allure-results
+        continue-on-error: true
 
-    - name: Test with pytest
-      id: test-run
-      run: |
-        python -m pytest -s --alluredir=gh-pages tests
-        # python -m pytest -s tests/
-        # pytest
-        # pytest --alluredir=test_results/ tests/test_user_auth.py
+      - name: Get Allure history
+        uses: actions/checkout@v2
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
 
-    - name: Get Allure history
-      id: allure-get-history
-      uses: actions/checkout@v2
-      if: always()
-      continue-on-error: true
-      with:
-        ref: gh-pages
-        path: gh-pages
+      - name: Allure Report action from marketplace
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        with:
+          allure_results: allure-results
+          allure_history: allure-history
 
-    - name: Allure Report action from marketplace
-      id: allure-report
-      uses: simple-elf/allure-report-action@master
-      if: always()
-      with:
-        allure_results: build/allure-results
-        gh_pages: gh-pages
-        allure_report: allure-report
-        allure_history: allure-history
+      - name: Deploy report to Github Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v2
+        env:
+          PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN_ALTAIR }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: allure-history
 
-    - name: Deploy report to Github Pages
-      id: allure-report-to-github-page-deploy
-      if: always()
-      uses: peaceiris/actions-gh-pages@v2
-      env:
-        PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN_ALTAIR }}
-        PUBLISH_BRANCH: gh-pages
-        PUBLISH_DIR: allure-history
-
+  send_message:
+    needs: autotests
     - name: Slack Notification
       uses: act10ns/slack@v1
       with:
@@ -99,4 +90,5 @@ jobs:
           ► Allure report: https://twill-aol.github.io/tests_twill_therapeutics_backend/
 
           Action builds: https://github.com/twill-aol/tests_twill_therapeutics_backend/actions/workflows/python-app.yml
+          Workflow: ${{ github.workflow }}
       if: always()
