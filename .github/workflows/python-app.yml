@@ -58,27 +58,27 @@ jobs:
         # pytest --alluredir=test_results/ tests/test_user_auth.py
 
     - name: Get Allure history
+      id: allure-get-history
       uses: actions/checkout@v2
       if: always()
-      id: allure-get-history
       continue-on-error: true
       with:
         ref: gh-pages
         path: gh-pages
 
     - name: Allure Report action from marketplace
+      id: allure-report
       uses: simple-elf/allure-report-action@master
       if: always()
-      id: allure-report
       with:
-        allure_results: target/allure-results
+        allure_results: build/allure-results
         gh_pages: gh-pages
         allure_report: allure-report
         allure_history: allure-history
 
     - name: Deploy report to Github Pages
-      if: always()
       id: allure-report-to-github-page-deploy
+      if: always()
       uses: peaceiris/actions-gh-pages@v2
       env:
         PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN_ALTAIR }}
