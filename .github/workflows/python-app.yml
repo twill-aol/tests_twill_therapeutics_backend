@@ -15,10 +15,6 @@ permissions:
   pull-requests: write
 
 jobs:
-  env:
-    SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-    SLACK_ICON: https://cdn-icons-png.flaticon.com/512/4712/4712139.png
-
   linter:
     runs-on: ubuntu-latest
     steps:
@@ -38,6 +34,19 @@ jobs:
           python3 -m pip install --upgrade pip
           pip install flake8
           flake8
+
+  autotests:
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_ICON: https://cdn-icons-png.flaticon.com/512/4712/4712139.png
+    needs: linter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.x
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
 
       - name: Install dependencies
         run: |
