@@ -23,12 +23,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      PERSONAL_TOKEN_ALTAIR: ${{ secrets.PERSONAL_TOKEN_ALTAIR }}
-      SLACK_ICON: https://cdn-icons-png.flaticon.com/512/4712/4712139.png
-
-
     steps:
     - uses: actions/checkout@v3
 
@@ -42,6 +36,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+  tests:
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        PERSONAL_TOKEN_ALTAIR: ${{ secrets.PERSONAL_TOKEN_ALTAIR }}
+        SLACK_ICON: https://cdn-icons-png.flaticon.com/512/4712/4712139.png
 
     - name: Lint with flake8
       id: flake8
