@@ -6,6 +6,7 @@ from lib.my_requests import MyRequests
 
 @allure.epic("[HD] No Authorization cases")
 class TestHDUnlogin(BaseCase):
+    @allure.label("HD", "unlogin")
     @allure.description("This test checks /daily api")
     def test_hd_get_last_article(self):
         response = MyRequests.get("/happifiers/daily/")
