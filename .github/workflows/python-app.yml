@@ -90,11 +90,8 @@ jobs:
         steps: ${{ toJson(steps) }}
         channel: '#bot-qa-automation'
         # ${{ steps.test-run.outcome }}
-        - title: Run Number
-          value: "{{runNumber}}"
         message: |+
           STATUS: ${{ job.status }}.
-          {{ Run Number }}
           [I'm an inline-style link](https://www.google.com)
           ► Allure report - https://twill-aol.github.io/tests_twill_therapeutics_backend/
       if: always()
