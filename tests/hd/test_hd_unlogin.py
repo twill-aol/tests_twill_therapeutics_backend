@@ -130,7 +130,7 @@ class TestHDUnlogin(BaseCase):
                 elif response.status_code == 200:
                     asserts(response, "article_id", article_id)
                     human_url = BaseCase.response_to_json(response)\
-                    ["human_url"]
+                         ["human_url"]
                     self.test_hd_get_article(human_url)
                     break
                 else:
