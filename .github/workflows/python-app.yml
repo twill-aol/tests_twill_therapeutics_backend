@@ -54,15 +54,7 @@ jobs:
         # pytest
         # pytest --alluredir=test_results/ tests/test_user_auth.py
 
-    - name: Slack Notification
-      uses: act10ns/slack@v1
-      with:
-        status: ${{ job.status }}
-        steps: ${{ toJson(steps) }}
-        channel: '#bot-qa-automation'
-      if: always()
-
-    - name: Get Allure history
+    - id: Get Allure history
       uses: actions/checkout@v2
       if: always()
       continue-on-error: true
@@ -70,7 +62,7 @@ jobs:
         ref: gh-pages
         path: gh-pages
 
-    - name: Allure Report action from marketplace
+    - id: Allure Report action from marketplace
       uses: simple-elf/allure-report-action@master
       if: always()
       id: allure-report
@@ -80,10 +72,18 @@ jobs:
         allure_report: allure-report
         allure_history: allure-history
 
-    - name: Deploy report to Github Pages
+    - id: Deploy report to Github Pages
       if: always()
       uses: peaceiris/actions-gh-pages@v2
       env:
         PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN_ALTAIR }}
         PUBLISH_BRANCH: gh-pages
         PUBLISH_DIR: allure-history
+
+    - name: Slack Notification
+      uses: act10ns/slack@v1
+      with:
+        status: ${{ job.status }}
+        steps: ${{ toJson(steps) }}
+        channel: '#bot-qa-automation'
+      if: always()
