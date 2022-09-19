@@ -54,7 +54,8 @@ jobs:
         # pytest
         # pytest --alluredir=test_results/ tests/test_user_auth.py
 
-    - id: Get Allure history
+    - name: Get Allure history
+    - id: get_allure_history
       uses: actions/checkout@v2
       if: always()
       continue-on-error: true
@@ -65,7 +66,7 @@ jobs:
     - name: Allure Report action from marketplace
       uses: simple-elf/allure-report-action@master
       if: always()
-      id: allure-report
+      id: allure_report
       with:
         allure_results: target/allure-results
         gh_pages: gh-pages
@@ -86,4 +87,5 @@ jobs:
         status: ${{ job.status }}
         steps: ${{ toJson(steps) }}
         channel: '#bot-qa-automation'
+        message: Allure report - https://twill-aol.github.io/tests_twill_therapeutics_backend/
       if: always()
