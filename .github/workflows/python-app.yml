@@ -84,7 +84,7 @@ jobs:
         uses: act10ns/slack@v1
         with:
           status: ${{ job.status }}
-          steps: ${{ autotests.toJson(steps) }}
+          steps: ${{ toJson(steps) }}
           channel: '#bot-qa-automation'
           # ${{ steps.test-run.outcome }}
           message: |+
