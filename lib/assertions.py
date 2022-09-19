@@ -22,7 +22,7 @@ class Assertions:
 
     @staticmethod
     def assert_json_has_keys(response: Response, names: list, index=None):
-        if index == None:
+        if index is None:
             response_as_dict = BaseCase.response_to_json(response)
         else:
             response_as_dict = BaseCase.response_to_json(response)[0]
