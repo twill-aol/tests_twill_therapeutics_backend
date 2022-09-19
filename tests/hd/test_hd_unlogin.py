@@ -129,9 +129,8 @@ class TestHDUnlogin(BaseCase):
                     continue
                 elif response.status_code == 200:
                     asserts(response, "article_id", article_id)
-                    human_url = BaseCase.response_to_json(response)\
-                         ["human_url"]
-                    self.test_hd_get_article(human_url)
+                    h_url = BaseCase.response_to_json(response)["human_url"]
+                    self.test_hd_get_article(h_url)
                     break
                 else:
                     assert 0, "None of the articles opened"
