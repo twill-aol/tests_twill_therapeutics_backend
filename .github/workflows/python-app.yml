@@ -19,7 +19,12 @@ permissions:
 
 
 jobs:
-  build:
+  build:    
+  
+  env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      PERSONAL_TOKEN_ALTAIR: ${{ secrets.PERSONAL_TOKEN_ALTAIR }}
+      SLACK_ICON: https://cdn-icons-png.flaticon.com/512/4712/4712139.png
 
     runs-on: ubuntu-latest
 
