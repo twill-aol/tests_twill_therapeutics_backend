@@ -16,6 +16,10 @@ permissions:
 
 jobs:
   linter:
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_ICON: https://cdn-icons-png.flaticon.com/512/4712/4712139.png
+
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -35,24 +39,6 @@ jobs:
           pip install flake8
           flake8
 
-  autotests:
-    env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      SLACK_ICON: https://cdn-icons-png.flaticon.com/512/4712/4712139.png
-    needs: linter
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python 3.x
-        id: setup_python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
       - name: Run Test
         if: always()
         run: python -m pytest --alluredir=allure-results
@@ -85,7 +71,7 @@ jobs:
         uses: act10ns/slack@v1
         with:
           status: ${{ job.status }}
-          steps: ${{ toJson(steps) }}
+          # steps: ${{ toJson(steps) }}
           channel: '#bot-qa-automation'
           # ${{ steps.test-run.outcome }}
           message: |+
