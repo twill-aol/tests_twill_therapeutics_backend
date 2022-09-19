@@ -88,5 +88,5 @@ jobs:
         status: ${{ job.status }}
         # steps: ${{ toJson(steps) }}
         channel: '#bot-qa-automation'
-        message: ${{ job.status }}. ${{ steps.test-run.outcome }} ► ${{ steps.allure-report.outcome }} ► Allure report - https://twill-aol.github.io/tests_twill_therapeutics_backend/
+        message: ${{ job.status }}. ${{ steps.test-run.outcome }}  ► ${{ steps.allure-report.outcome }} \n ► Allure report - https://twill-aol.github.io/tests_twill_therapeutics_backend/
       if: always()
