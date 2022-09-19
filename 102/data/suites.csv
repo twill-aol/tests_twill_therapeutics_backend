@@ -1,0 +1,6 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Mon Sep 19 13:44:07 GMT 2022","Mon Sep 19 13:44:07 GMT 2022","403","tests.hd","test_hd_unlogin","TestHDUnlogin","","","test_hd_get_last_article","This test checks /daily api"
+"passed","Mon Sep 19 13:44:08 GMT 2022","Mon Sep 19 13:44:08 GMT 2022","368","tests.hd","test_hd_unlogin","TestHDUnlogin","","","test_hd_get_last_articles","This test checks /happifiers/[id] api"
+"passed","Mon Sep 19 13:44:07 GMT 2022","Mon Sep 19 13:44:08 GMT 2022","290","tests.hd","test_hd_unlogin","TestHDUnlogin","","","test_hd_get_topics","This test checks /topics api"
+"passed","Mon Sep 19 13:44:08 GMT 2022","Mon Sep 19 13:44:08 GMT 2022","304","tests.hd","test_hd_unlogin","TestHDUnlogin","","","test_hd_get_count_of_topics","This test checks /happifiers+params api"
+"passed","Mon Sep 19 13:44:08 GMT 2022","Mon Sep 19 13:44:08 GMT 2022","0","tests.other","test_check_of_testing_by_machine","TestCheckOfTestingByMachine","","","test_logic",""
