@@ -7,6 +7,7 @@ class MyRequests:
     def post(
         url: str,
         data: dict = None,
+        json: dict = None,
         headers: dict = None,
         cookies: dict = None
     ):
@@ -47,12 +48,13 @@ class MyRequests:
     def _send(
         url: str,
         data: dict,
+        json: dict,
         headers: dict,
         cookies: dict,
         method: str
     ):
 
-        url = f"https://therapeutics.stage-twill.health/api{url}"
+        url = f"https://therapeutics.stage-twill.health/{url}"
         if headers is None:
             headers = {}
         if cookies is None:
@@ -71,6 +73,7 @@ class MyRequests:
             response = requests.post(
                 url,
                 data=data,
+                json=json,
                 headers=headers,
                 cookies=cookies
             )

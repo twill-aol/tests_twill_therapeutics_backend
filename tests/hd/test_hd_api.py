@@ -9,7 +9,7 @@ class TestHDUnlogin(BaseCase):
     @allure.label("HD", "unlogin")
     @allure.description("This test checks /daily api")
     def test_hd_get_last_article(self):
-        response = MyRequests.get("/happifiers/daily/")
+        response = MyRequests.get("/api/happifiers/daily/")
 
         Assertions.assert_code_status(response, 200)
         Assertions.assert_json_has_keys(
@@ -52,7 +52,7 @@ class TestHDUnlogin(BaseCase):
     @allure.label("HD", "unlogin")
     @allure.description("This test checks /topics api")
     def test_hd_get_topics(self):
-        response = MyRequests.get("/happifiers/topics/")
+        response = MyRequests.get("/api/happifiers/topics/")
 
         Assertions.assert_code_status(response, 200)
         Assertions.assert_json_has_keys(
@@ -124,7 +124,7 @@ class TestHDUnlogin(BaseCase):
 
         if human_url == "":
             for article_id in range(1, 450, 32):
-                response = MyRequests.get(f"/happifiers/{article_id}/")
+                response = MyRequests.get(f"/api/happifiers/{article_id}/")
                 if response.status_code != 200:
                     continue
                 elif response.status_code == 200:
@@ -135,7 +135,7 @@ class TestHDUnlogin(BaseCase):
                 else:
                     assert 0, "None of the articles opened"
         else:
-            response = MyRequests.get(f"/happifiers/{human_url}/")
+            response = MyRequests.get(f"/api/happifiers/{human_url}/")
             asserts(response, "human_url", human_url)
 
     @allure.label("HD", "unlogin")
@@ -143,7 +143,7 @@ class TestHDUnlogin(BaseCase):
     def test_hd_get_count_of_topics(self):
         count_of_articles_param = 5
         response = MyRequests.get(
-            f"/happifiers/?page=1&page_size={count_of_articles_param}"
+            f"/api/happifiers/?page=1&page_size={count_of_articles_param}"
         )
 
         Assertions.assert_code_status(response, 200)
@@ -152,3 +152,24 @@ class TestHDUnlogin(BaseCase):
             count_of_articles_param,
             f"Response does not contain {count_of_articles_param} keys",
         )
+
+
+@allure.epic("[HD] Authorization cases")
+class TestHDLogin(BaseCase):
+
+    @allure.label("HD", "Authorization")
+    @allure.description("This test checks /happifiers+params api")
+    def test_hd_get_count_of_topics(self):
+        response = MyRequests.post("/auth/signup/", json={"username": f"Bot200922","email": "oleynik+2009221@gmail.com","password": 'Password+1',"agreement":"on", "first_name": f"Bot200922", "last_name": f"AQABot200922"})
+        
+#     response = template_post("email-register/", json={"username": f"Bot{TIME_START}","email": EMAIL_NEW_USER,"password": PASSWORD,"agreement":"on", "first_name": f"Bot{TIME_START}", "last_name": f"AQA{TIME_START}"})
+#     content = str(response.content)
+#     user_ps = finder_text(content, '"partner_space_srid":', ",")[4:-1]
+#     flag = '"user_id":'
+#     if flag in content:
+#         user_id = finder_text(content, flag, ',')
+#         print(f'► [{SERVER}:] [email]: {EMAIL_NEW_USER}, [password]: {PASSWORD}, [user_id]: {user_id}', end=' ')
+#         if (user_ps not in SERVER or PS_SUBDOMEN) and (user_ps not in ('uhc_aarp', 'grant_thornton', 'uplift')):
+#             print('► Юзер создан не в том PS')
+#     else:
+#         print('Юзер не создан')
