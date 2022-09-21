@@ -129,7 +129,7 @@ class TestHDUnlogin(BaseCase):
                     continue
                 elif response.status_code == 200:
                     asserts(response, "article_id", article_id)
-                    h_url = BaseCase.response_to_json(response)['human_url']
+                    h_url = self.response_to_json(response)['human_url']
                     self.test_hd_get_article(h_url)
                     break
                 else:
@@ -160,16 +160,13 @@ class TestHDLogin(BaseCase):
     @allure.label("HD", "Authorization")
     @allure.description("This test checks /happifiers+params api")
     def test_hd_get_count_of_topics(self):
-        response = MyRequests.post("/auth/signup/", json={"username": f"Bot200922","email": "oleynik+2009221@gmail.com","password": 'Password+1',"agreement":"on", "first_name": f"Bot200922", "last_name": f"AQABot200922"})
-        
-#     response = template_post("email-register/", json={"username": f"Bot{TIME_START}","email": EMAIL_NEW_USER,"password": PASSWORD,"agreement":"on", "first_name": f"Bot{TIME_START}", "last_name": f"AQA{TIME_START}"})
-#     content = str(response.content)
-#     user_ps = finder_text(content, '"partner_space_srid":', ",")[4:-1]
-#     flag = '"user_id":'
-#     if flag in content:
-#         user_id = finder_text(content, flag, ',')
-#         print(f'► [{SERVER}:] [email]: {EMAIL_NEW_USER}, [password]: {PASSWORD}, [user_id]: {user_id}', end=' ')
-#         if (user_ps not in SERVER or PS_SUBDOMEN) and (user_ps not in ('uhc_aarp', 'grant_thornton', 'uplift')):
-#             print('► Юзер создан не в том PS')
-#     else:
-#         print('Юзер не создан')
+        signup_data = self.prepare_registration_data()
+        response = MyRequests.post("/auth/signup/", json=signup_data)
+        user_id = self.response_to_json(response)["user_id"]
+
+        Assertions.assert_code_status(response, 200)
+        Assertions.assert_json_has_key(response, "user_id")
+
+# response = MyRequests.post("/auth/signup/", json=signup_data)
+# response_as_dict = BaseCase.response_to_json(response)
+# print("user_id" in response_as_dict.keys())

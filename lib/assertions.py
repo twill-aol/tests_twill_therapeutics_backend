@@ -17,7 +17,7 @@ class Assertions:
     def assert_json_has_key(response: Response, name):
         response_as_dict = BaseCase.response_to_json(response)
 
-        assert name in response_as_dict, \
+        assert name in response_as_dict.keys(), \
             f"Response JSON doesn't have key {name}"
 
     @staticmethod
