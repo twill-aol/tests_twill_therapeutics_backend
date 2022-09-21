@@ -1,17 +1,13 @@
 import json.decoder
-from datetime import datetime
 from requests import Response
-import datetime as dt
 
-
-TIME_START = str(dt.datetime.now().strftime("%Y%m%d%H%M%S"))
 
 class BaseCase:
     @classmethod
     def response_to_json(cls, response: Response):
         try:
             response_as_dict = response.json()
-        except json.JSONDecodeError:
+        except json.decoder.JSONDecodeError:
             assert (
                 False
             ), f"Response is not in JSON format. \
@@ -32,29 +28,7 @@ class BaseCase:
         return response.headers[headers_name]
 
     def get_json_value(self, response: Response, name):
-        try:
-            response_as_dict = response.json()
-        except json.decoder.JSONDecoderError:
-            assert (
-                False
-            ), f"Response is not in JSON-format. \
-                Response text is '{response.text}'"
-
+        response_as_dict = self.response_to_json(response)
         assert name in response_as_dict, \
             "Response JSON does not have key '{name}'"
         return response_as_dict[name]
-
-    def prepare_registration_data(self, email=None):
-        dynamic_part = f'oleynik+{TIME_START}'
-        domain = 'alarstudios.com'
-        if email is None:
-            email = f"{dynamic_part}@{domain}"
-        signup_data = {
-                "username": f"Bot{TIME_START}",
-                "email": email,
-                "password": 'Password+1',
-                "agreement":"on",
-                "first_name": f"Bot{TIME_START}",
-                "last_name": f"AQABot{TIME_START}",
-            }
-        return signup_data
