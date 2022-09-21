@@ -1,0 +1,7 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Wed Sep 21 21:55:32 GMT 2022","Wed Sep 21 21:55:32 GMT 2022","0","tests.other","test_check_of_testing_by_machine","TestCheckOfTestingByMachine","","","test_logic","This test checks works the test         system by not using network"
+"passed","Wed Sep 21 21:55:24 GMT 2022","Wed Sep 21 21:55:25 GMT 2022","883","tests.hd","test_hd_api","TestHDUnlogin","","","test_hd_get_article","This test checks /happifiers/[id] api"
+"passed","Wed Sep 21 21:55:23 GMT 2022","Wed Sep 21 21:55:24 GMT 2022","550","tests.hd","test_hd_api","TestHDUnlogin","","","test_hd_get_last_article","This test checks /daily api"
+"passed","Wed Sep 21 21:55:24 GMT 2022","Wed Sep 21 21:55:24 GMT 2022","411","tests.hd","test_hd_api","TestHDUnlogin","","","test_hd_get_topics","This test checks /topics api"
+"passed","Wed Sep 21 21:55:26 GMT 2022","Wed Sep 21 21:55:32 GMT 2022","6619","tests.hd","test_hd_api","TestHDLogin","","","test_hd_get_count_of_topics","This test checks /happifiers+params api"
+"passed","Wed Sep 21 21:55:25 GMT 2022","Wed Sep 21 21:55:26 GMT 2022","424","tests.hd","test_hd_api","TestHDUnlogin","","","test_hd_get_count_of_topics","This test checks /happifiers+params api"
