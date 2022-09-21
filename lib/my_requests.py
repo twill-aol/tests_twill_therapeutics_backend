@@ -45,7 +45,14 @@ class MyRequests:
         cookies: dict = None
     ):
         with allure.step(f"DELETE request to URL '{url}'"):
-            return MyRequests._send(url, data, json, headers, cookies, "DELETE")
+            return MyRequests._send(
+                url,
+                data,
+                json,
+                headers,
+                cookies,
+                "DELETE"
+            )
 
     @staticmethod
     def _send(

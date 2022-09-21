@@ -165,10 +165,13 @@ class TestHDLogin(BaseCase):
         response_as_dict = self.response_to_json(response)
         user_id = response_as_dict["user_id"]
         marty_session_id = self.get_cookie(response, "marty_session_id")
-        marty_session_id_hash = self.get_cookie(response, "marty_session_id_hash")
+        marty_session_id_hash = self.get_cookie(
+            response,
+            "marty_session_id_hash"
+        )
         print(marty_session_id, marty_session_id_hash, user_id)
         # check login api/users/3311414/
 
 # response = MyRequests.post("/auth/signup/", json=signup_data)
 # response_as_dict = BaseCase.response_to_json(response)
-# print("user_id" in response_as_dict.keys()) 
+# print("user_id" in response_as_dict.keys())

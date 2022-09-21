@@ -6,6 +6,7 @@ from lib.my_requests import MyRequests
 
 TIME_START = str(dt.datetime.now().strftime("%Y%m%d%H%M%S"))
 
+
 class MainCase(BaseCase):
     @classmethod
     def signup(self, email=None):
@@ -17,7 +18,7 @@ class MainCase(BaseCase):
                 "username": f"Bot{TIME_START}",
                 "email": email,
                 "password": 'Password+1',
-                "agreement":"on",
+                "agreement": "on",
                 "first_name": f"Bot{TIME_START}",
                 "last_name": f"AQABot{TIME_START}",
             }
