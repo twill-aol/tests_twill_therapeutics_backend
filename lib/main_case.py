@@ -38,3 +38,17 @@ class MainCase(BaseCase):
             ],
         )
         return response
+
+    @classmethod
+    def cookies_marty_construction(self, response):
+        marty_session_id = self.get_cookie(self, response, "marty_session_id")
+        marty_session_id_hash = self.get_cookie(
+            self,
+            response,
+            "marty_session_id_hash"
+        )
+        cookies = {
+            "marty_session_id": marty_session_id,
+            "marty_session_id_hash": marty_session_id_hash
+        }
+        return cookies

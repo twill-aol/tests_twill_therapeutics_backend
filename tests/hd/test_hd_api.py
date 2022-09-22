@@ -9,9 +9,8 @@ from lib.my_requests import MyRequests
 class TestHDUnlogin(BaseCase):
     @allure.label("HD", "unlogin")
     @allure.description("This test checks /daily api")
-    def test_hd_get_last_article(self):
-        response = MyRequests.get("/api/happifiers/daily/")
-
+    def test_hd_get_last_article_unlogin(self, cookies=None):
+        response = MyRequests.get("/api/happifiers/daily/", cookies=cookies)
         Assertions.assert_code_status(response, 200)
         Assertions.assert_json_has_keys(
             response,
@@ -52,8 +51,8 @@ class TestHDUnlogin(BaseCase):
 
     @allure.label("HD", "unlogin")
     @allure.description("This test checks /topics api")
-    def test_hd_get_topics(self):
-        response = MyRequests.get("/api/happifiers/topics/")
+    def test_hd_get_topics_unlogin(self, cookies=None):
+        response = MyRequests.get("/api/happifiers/topics/", cookies=cookies)
 
         Assertions.assert_code_status(response, 200)
         Assertions.assert_json_has_keys(
@@ -73,8 +72,8 @@ class TestHDUnlogin(BaseCase):
 
     @allure.label("HD", "unlogin")
     @allure.description("This test checks /happifiers/[id] api")
-    def test_hd_get_article(self, human_url=""):
-        def asserts(response, uri_type, uri):
+    def test_hd_get_article_unlogin(self, human_url="", cookies=None):
+        def hd_get_article_asserts(response, uri_type, uri):
             with allure.step(f"Get article by {uri_type}: '{uri}'"):
                 Assertions.assert_code_status(response, 200),
                 Assertions.assert_json_has_keys(
@@ -125,26 +124,33 @@ class TestHDUnlogin(BaseCase):
 
         if human_url == "":
             for article_id in range(1, 450, 32):
-                response = MyRequests.get(f"/api/happifiers/{article_id}/")
+                response = MyRequests.get(
+                    f"/api/happifiers/{article_id}/",
+                    cookies=cookies
+                )
                 if response.status_code != 200:
                     continue
                 elif response.status_code == 200:
-                    asserts(response, "article_id", article_id)
+                    hd_get_article_asserts(response, "article_id", article_id)
                     h_url = self.response_to_json(response)['human_url']
-                    self.test_hd_get_article(h_url)
-                    break
+                    self.test_hd_get_article_unlogin(h_url)
+                    return h_url
                 else:
                     assert 0, "None of the articles opened"
         else:
-            response = MyRequests.get(f"/api/happifiers/{human_url}/")
-            asserts(response, "human_url", human_url)
+            response = MyRequests.get(
+                f"/api/happifiers/{human_url}/",
+                cookies=cookies
+            )
+            hd_get_article_asserts(response, "human_url", human_url)
 
     @allure.label("HD", "unlogin")
     @allure.description("This test checks /happifiers+params api")
-    def test_hd_get_count_of_topics(self):
+    def test_hd_get_count_of_topics_unlogin(self, cookies=None):
         count_of_articles_param = 5
         response = MyRequests.get(
-            f"/api/happifiers/?page=1&page_size={count_of_articles_param}"
+            f"/api/happifiers/?page=1&page_size={count_of_articles_param}",
+            cookies=cookies
         )
 
         Assertions.assert_code_status(response, 200)
@@ -158,20 +164,32 @@ class TestHDUnlogin(BaseCase):
 @allure.epic("[HD] Authorization cases")
 class TestHDLogin(BaseCase):
 
+    # def setup(self):
+    response = MainCase.signup()
+    cookies = MainCase.cookies_marty_construction(response)
+
     @allure.label("HD", "Authorization")
     @allure.description("This test checks /happifiers+params api")
-    def test_hd_get_count_of_topics(self):
-        response = MainCase.signup()
-        response_as_dict = self.response_to_json(response)
-        user_id = response_as_dict["user_id"]
-        marty_session_id = self.get_cookie(response, "marty_session_id")
-        marty_session_id_hash = self.get_cookie(
-            response,
-            "marty_session_id_hash"
+    def test_hd_get_last_article_login(self):
+        TestHDUnlogin.test_hd_get_last_article_unlogin(
+            self,
+            cookies=self.cookies
         )
-        print(marty_session_id, marty_session_id_hash, user_id)
-        # check login api/users/3311414/
 
-# response = MyRequests.post("/auth/signup/", json=signup_data)
-# response_as_dict = BaseCase.response_to_json(response)
-# print("user_id" in response_as_dict.keys())
+    @allure.label("HD", "Authorization")
+    @allure.description("This test checks /api/happifiers/topics/ api")
+    def test_hd_get_topics_login(self):
+        TestHDUnlogin.test_hd_get_topics_unlogin(self, cookies=self.cookies)
+
+    # @allure.label("HD", "Authorization")
+    # @allure.description("This test checks /happifiers/[id] api")
+    # def test_hd_get_article_login(self, url=""):
+    #     TestHDUnlogin.test_hd_get_article_unlogin(self, url="", cookies=self.cookies)
+
+    @allure.label("HD", "unlogin")
+    @allure.description("This test checks /happifiers+params api")
+    def test_hd_get_count_of_topics_unlogin(self):
+        TestHDUnlogin.test_hd_get_count_of_topics_unlogin(
+            self,
+            cookies=self.cookies
+        )
