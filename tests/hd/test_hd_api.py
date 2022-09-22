@@ -184,7 +184,11 @@ class TestHDLogin(BaseCase):
     # @allure.label("HD", "Authorization")
     # @allure.description("This test checks /happifiers/[id] api")
     # def test_hd_get_article_login(self, url=""):
-    #     TestHDUnlogin.test_hd_get_article_unlogin(self, url="", cookies=self.cookies)
+        # TestHDUnlogin.test_hd_get_article_unlogin(
+        #     self,
+        #     url="",
+        #     cookies=self.cookies
+        # )
 
     @allure.label("HD", "unlogin")
     @allure.description("This test checks /happifiers+params api")
