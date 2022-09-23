@@ -122,7 +122,7 @@ class TestHDUnlogin(BaseCase):
                     ],
                 )
 
-        if human_url == "":
+        if human_url == "" or human_url is None:
             for article_id in range(1, 450, 32):
                 response = MyRequests.get(
                     f"/api/happifiers/{article_id}/",
@@ -133,7 +133,8 @@ class TestHDUnlogin(BaseCase):
                 elif response.status_code == 200:
                     hd_get_article_asserts(response, "article_id", article_id)
                     h_url = self.response_to_json(response)['human_url']
-                    self.test_hd_get_article_unlogin(h_url)
+                    if human_url == "":
+                        self.test_hd_get_article_unlogin(h_url)
                     return h_url
                 else:
                     assert 0, "None of the articles opened"
@@ -164,7 +165,6 @@ class TestHDUnlogin(BaseCase):
 @allure.epic("[HD] Authorization cases")
 class TestHDLogin(BaseCase):
 
-    # def setup(self):
     response = MainCase.signup()
     cookies = MainCase.cookies_marty_construction(response)
 
@@ -181,14 +181,14 @@ class TestHDLogin(BaseCase):
     def test_hd_get_topics_login(self):
         TestHDUnlogin.test_hd_get_topics_unlogin(self, cookies=self.cookies)
 
-    # @allure.label("HD", "Authorization")
-    # @allure.description("This test checks /happifiers/[id] api")
-    # def test_hd_get_article_login(self, url=""):
-        # TestHDUnlogin.test_hd_get_article_unlogin(
-        #     self,
-        #     url="",
-        #     cookies=self.cookies
-        # )
+    @allure.label("HD", "Authorization")
+    @allure.description("This test checks /happifiers/[id] api")
+    def test_hd_get_article_login(self, human_url=""):
+        TestHDUnlogin.test_hd_get_article_unlogin(
+            self,
+            human_url=None,
+            cookies=self.cookies
+        ) # check getting article only by id
 
     @allure.label("HD", "unlogin")
     @allure.description("This test checks /happifiers+params api")
