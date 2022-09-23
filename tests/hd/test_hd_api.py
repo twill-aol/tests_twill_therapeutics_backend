@@ -195,7 +195,7 @@ class TestHDLogin(BaseCase):
             self,
             human_url=None,
             cookies=self.cookies
-        ) # check getting article only by id
+        )  # check getting article only by id
 
     @allure.label("HD", "Authorization")
     @allure.description("This test checks /happifiers+params api")
@@ -211,7 +211,7 @@ class TestHDLogin(BaseCase):
     def test_hd_newsletter_action_login(self, condition):
         params = {"email": self.email}
         with allure.step(f"Check hd_newsletter_status in answer \
-            after `{condition}` action"):
+        after `{condition}` action"):
             response = MyRequests.post(
                 f"/api/happifiers/newsletter_{condition}/",
                 json=params,
@@ -223,11 +223,11 @@ class TestHDLogin(BaseCase):
                 response,
                 "status",
                 current_subscription_status,
-                f"Current subscription status {current_subscription_status} does \
-                not match expected status"
+                f"Current subscription status {current_subscription_status} \
+                does not match expected status"
             )
         with allure.step(f"Check hd_newsletter_status in user-API after \
-            `{condition}` action"):
+        `{condition}` action"):
             response = MyRequests.get(
                 f"/api/users/{self.user_id}/",
                 json=params,
@@ -242,6 +242,6 @@ class TestHDLogin(BaseCase):
                 response,
                 "show_happify_daily_signup",
                 show_happify_daily_signup,
-                f"Current subscription status {current_subscription_status} does \
-                not match expected status"
+                f"Current subscription status {current_subscription_status} \
+                does not match expected status"
             )
