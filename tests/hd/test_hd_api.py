@@ -1,4 +1,5 @@
 import allure
+import pytest
 from lib.assertions import Assertions
 from lib.base_case import BaseCase
 from lib.main_case import MainCase
@@ -164,8 +165,14 @@ class TestHDUnlogin(BaseCase):
 
 @allure.epic("[HD] Authorization cases")
 class TestHDLogin(BaseCase):
+    exclude_params_subscribe = [
+        ("subscribe"),
+        ("unsubscribe")
+    ]
 
     response = MainCase.signup()
+    user_id = BaseCase.response_to_json(response)["user_id"]
+    email = BaseCase.response_to_json(response)["user"]["email"]
     cookies = MainCase.cookies_marty_construction(response)
 
     @allure.label("HD", "Authorization")
@@ -190,10 +197,51 @@ class TestHDLogin(BaseCase):
             cookies=self.cookies
         ) # check getting article only by id
 
-    @allure.label("HD", "unlogin")
+    @allure.label("HD", "Authorization")
     @allure.description("This test checks /happifiers+params api")
-    def test_hd_get_count_of_topics_unlogin(self):
+    def test_hd_get_count_of_topics_login(self):
         TestHDUnlogin.test_hd_get_count_of_topics_unlogin(
             self,
             cookies=self.cookies
         )
+
+    @allure.label("HD", "Authorization")
+    @allure.description("This test checks /happifiers+params api")
+    @pytest.mark.parametrize("condition", exclude_params_subscribe)
+    def test_hd_newsletter_action_login(self, condition):
+        params = {"email": self.email}
+        with allure.step(f"Check hd_newsletter_status in answer \
+            after `{condition}` action"):
+            response = MyRequests.post(
+                f"/api/happifiers/newsletter_{condition}/",
+                json=params,
+                cookies=self.cookies
+            )
+            Assertions.assert_code_status(response, 200)
+            current_subscription_status = f"{condition}d"
+            Assertions.assert_json_value_by_name(
+                response,
+                "status",
+                current_subscription_status,
+                f"Current subscription status {current_subscription_status} does \
+                not match expected status"
+            )
+        with allure.step(f"Check hd_newsletter_status in user-API after \
+            `{condition}` action"):
+            response = MyRequests.get(
+                f"/api/users/{self.user_id}/",
+                json=params,
+                cookies=self.cookies
+            )
+            Assertions.assert_code_status(response, 200)
+            if condition == "subscribe":
+                show_happify_daily_signup = False
+            else:
+                show_happify_daily_signup = True
+            Assertions.assert_json_value_by_name(
+                response,
+                "show_happify_daily_signup",
+                show_happify_daily_signup,
+                f"Current subscription status {current_subscription_status} does \
+                not match expected status"
+            )
