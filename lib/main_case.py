@@ -10,17 +10,18 @@ TIME_START = str(dt.datetime.now().strftime("%Y%m%d%H%M%S"))
 class MainCase(BaseCase):
     @classmethod
     def signup(self, email=None):
-        dynamic_part = f'oleynik+{TIME_START}'
+        time_part = str(dt.datetime.now().strftime("%Y%m%d%H%M%S"))
+        dynamic_part = f'oleynik+{time_part}'
         domain = 'alarstudios.com'
         if email is None:
             email = f"{dynamic_part}@{domain}"
         signup_data = {
-                "username": f"Bot{TIME_START}",
+                "username": f"Bot{time_part}",
                 "email": email,
                 "password": 'Password+1',
                 "agreement": "on",
-                "first_name": f"Bot{TIME_START}",
-                "last_name": f"AQABot{TIME_START}",
+                "first_name": f"Bot{time_part}",
+                "last_name": f"AQABot{time_part}",
             }
         response = MyRequests.post("/auth/signup/", json=signup_data)
 
