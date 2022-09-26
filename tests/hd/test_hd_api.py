@@ -136,7 +136,8 @@ class TestHDUnlogin(BaseCase):
                 if response.status_code != 200:
                     continue
                 elif response.status_code == 200:
-                    _hd_get_article_asserts(response,
+                    _hd_get_article_asserts(
+                        response,
                         "article_id",
                         article_id
                     )
