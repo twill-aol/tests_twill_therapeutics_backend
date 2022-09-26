@@ -8,9 +8,11 @@ from lib.my_requests import MyRequests
 
 @allure.epic("[HD] No Authorization cases")
 class TestHDUnlogin(BaseCase):
+    '''Tests without autorization'''
     @allure.label("HD", "unlogin")
     @allure.description("This test checks /daily api")
     def test_hd_get_last_article_unlogin(self, cookies=None):
+        '''Get last article from HD without autorization'''
         response = MyRequests.get("/api/happifiers/daily/", cookies=cookies)
         Assertions.assert_code_status(response, 200)
         Assertions.assert_json_has_keys(
@@ -53,6 +55,7 @@ class TestHDUnlogin(BaseCase):
     @allure.label("HD", "unlogin")
     @allure.description("This test checks /topics api")
     def test_hd_get_topics_unlogin(self, cookies=None):
+        '''Get exists topics without authorization'''
         response = MyRequests.get("/api/happifiers/topics/", cookies=cookies)
 
         Assertions.assert_code_status(response, 200)
@@ -74,7 +77,8 @@ class TestHDUnlogin(BaseCase):
     @allure.label("HD", "unlogin")
     @allure.description("This test checks /happifiers/[id] api")
     def test_hd_get_article_unlogin(self, human_url="", cookies=None):
-        def hd_get_article_asserts(response, uri_type, uri):
+        '''Find and Get first exists article without authorization'''
+        def _hd_get_article_asserts(response, uri_type, uri):
             with allure.step(f"Get article by {uri_type}: '{uri}'"):
                 Assertions.assert_code_status(response, 200),
                 Assertions.assert_json_has_keys(
@@ -132,7 +136,10 @@ class TestHDUnlogin(BaseCase):
                 if response.status_code != 200:
                     continue
                 elif response.status_code == 200:
-                    hd_get_article_asserts(response, "article_id", article_id)
+                    _hd_get_article_asserts(response,
+                        "article_id",
+                        article_id
+                    )
                     h_url = self.response_to_json(response)['human_url']
                     if human_url == "":
                         self.test_hd_get_article_unlogin(h_url)
@@ -144,11 +151,12 @@ class TestHDUnlogin(BaseCase):
                 f"/api/happifiers/{human_url}/",
                 cookies=cookies
             )
-            hd_get_article_asserts(response, "human_url", human_url)
+            _hd_get_article_asserts(response, "human_url", human_url)
 
     @allure.label("HD", "unlogin")
     @allure.description("This test checks /happifiers+params api")
-    def test_hd_get_count_of_topics_unlogin(self, cookies=None):
+    def test_hd_get_count_of_articles_unlogin(self, cookies=None):
+        '''Get needed count of topics without authorization'''
         count_of_articles_param = 5
         response = MyRequests.get(
             f"/api/happifiers/?page=1&page_size={count_of_articles_param}",
@@ -165,6 +173,7 @@ class TestHDUnlogin(BaseCase):
 
 @allure.epic("[HD] Authorization cases")
 class TestHDLogin(BaseCase):
+    '''Tests with autorization'''
     exclude_params_subscribe = [
         ("subscribe"),
         ("unsubscribe")
@@ -178,6 +187,7 @@ class TestHDLogin(BaseCase):
     @allure.label("HD", "Authorization")
     @allure.description("This test checks /happifiers+params api")
     def test_hd_get_last_article_login(self):
+        '''Get last article from HD with autorization'''
         TestHDUnlogin.test_hd_get_last_article_unlogin(
             self,
             cookies=self.cookies
@@ -186,11 +196,13 @@ class TestHDLogin(BaseCase):
     @allure.label("HD", "Authorization")
     @allure.description("This test checks /api/happifiers/topics/ api")
     def test_hd_get_topics_login(self):
+        '''Get exists topics with authorization'''
         TestHDUnlogin.test_hd_get_topics_unlogin(self, cookies=self.cookies)
 
     @allure.label("HD", "Authorization")
     @allure.description("This test checks /happifiers/[id] api")
     def test_hd_get_article_login(self, human_url=""):
+        '''Find and Get first exists article with authorization'''
         TestHDUnlogin.test_hd_get_article_unlogin(
             self,
             human_url=None,
@@ -200,7 +212,8 @@ class TestHDLogin(BaseCase):
     @allure.label("HD", "Authorization")
     @allure.description("This test checks /happifiers+params api")
     def test_hd_get_count_of_topics_login(self):
-        TestHDUnlogin.test_hd_get_count_of_topics_unlogin(
+        '''Get needed count of topics with authorization'''
+        TestHDUnlogin.test_hd_get_count_of_articles_unlogin(
             self,
             cookies=self.cookies
         )
@@ -209,6 +222,7 @@ class TestHDLogin(BaseCase):
     @allure.description("This test checks /happifiers+params api")
     @pytest.mark.parametrize("condition", exclude_params_subscribe)
     def test_hd_newsletter_action_login(self, condition):
+        '''Post needed status of subscribing in HD'''
         params = {"email": self.email}
         with allure.step(f"Check hd_newsletter_status in answer \
         after `{condition}` action"):
