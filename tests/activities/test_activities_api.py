@@ -51,4 +51,3 @@ class TestActivitiesSkill(BaseCase):
             Assertions.assert_code_status(response, 200)
             points = self.response_to_json(response)["skills"]["SA"]['points']
             assert points == 21, "Current points does not = 21"
-    
