@@ -25,7 +25,7 @@ class Assertions:
         if index is None:
             response_as_dict = BaseCase.response_to_json(response)
         else:
-            response_as_dict = BaseCase.response_to_json(response)[0]
+            response_as_dict = BaseCase.response_to_json(response)[index]
         for name in names:
             assert name in response_as_dict, \
                 f"Response JSON doesn't have key {name}"
