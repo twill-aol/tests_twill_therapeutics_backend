@@ -5,16 +5,16 @@ from lib.main_case import MainCase
 from lib.my_requests import MyRequests
 
 
-@allure.epic("[Activities] Kindness Chain")
+@allure.epic("[Activities] Uplift")
 class TestKindnessChain(BaseCase):
-    '''Tests Kindness Chain activity'''
+    '''Tests Uplift activity'''
 
     user_id, email, cookies = MainCase.signup_router()
 
-    @allure.label("activity", "game", "authorization", "kindness chain", "kc")
+    @allure.label("activities", "game", "autorization", "uplift", "up")
     @allure.description("This test checks /api/activities \
     and api/v3/activity_status api")
-    def test_kindness_chain_activity(self):
+    def test_uplift_game(self):
         '''New activity initializes and get its id'''
         params = {
             "text": "You Make Me Laugh",

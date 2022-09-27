@@ -1,4 +1,5 @@
 import allure
+import pytest
 from lib.assertions import Assertions
 from lib.base_case import BaseCase
 from lib.main_case import MainCase
@@ -8,20 +9,27 @@ from lib.my_requests import MyRequests
 @allure.epic("[Activities] by Skill")
 class TestActivitiesSkill(BaseCase):
     '''Tests with autorization'''
+    exclude_params_subscribe = [
+        ("S-01"),
+        ("T-09"),
+        ("A-11"),
+        ("G-03"),
+        ("E-01"),
+        ("E-01"),
+        ("R-01")
+    ]
 
     user_id, email, cookies = MainCase.signup_router()
-    # user_id = BaseCase.response_to_json(response)["user_id"]
-    # email = BaseCase.response_to_json(response)["user"]["email"]
-    # cookies = MainCase.cookies_marty_construction(response)
 
-    @allure.label("Activities", "login", "skills")
+    @allure.label("activity", "authorization", "skills")
     @allure.description("This test checks /api/activities \
     and api/v3/activity_status api")
-    def test_activities_skill(self):
+    @pytest.mark.parametrize("activity_type", exclude_params_subscribe)
+    def test_activities_skill(self, activity_type):
         '''New activity initializes and get its id'''
-        with allure.step("Complete S-02 activity"):
+        with allure.step(f"Complete {activity_type} activity"):
             response = MyRequests.get(
-                "/api/activities/S-02/activity_status/",
+                f"/api/activities/{activity_type}/activity_status/",
                 cookies=self.cookies
             )
             activity_id = BaseCase.response_to_json(response)["id"]

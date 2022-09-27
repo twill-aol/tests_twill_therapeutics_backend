@@ -66,8 +66,6 @@ class MainCase(BaseCase):
     @classmethod
     def signup_router(self, email=None):
         if self.cookies != "":
-            print('►')
             return self.user_id, self.email, self.cookies
         else:
-            print('◘')
             return MainCase.signup(email)
