@@ -8,21 +8,41 @@ TIME_START = str(dt.datetime.now().strftime("%Y%m%d%H%M%S"))
 
 
 class MainCase(BaseCase):
+
+    # response = MainCase.signup()
+    user_id = ""
+    email = ""
+    cookies = ""
+
+    @classmethod
+    def cookies_marty_construction(self, response):
+        marty_session_id = self.get_cookie(self, response, "marty_session_id")
+        marty_session_id_hash = self.get_cookie(
+            self,
+            response,
+            "marty_session_id_hash"
+        )
+        cookies = {
+            "marty_session_id": marty_session_id,
+            "marty_session_id_hash": marty_session_id_hash
+        }
+        return cookies
+
     @classmethod
     def signup(self, email=None):
-        time_part = str(dt.datetime.now().strftime("%Y%m%d%H%M%S"))
-        dynamic_part = f'oleynik+{time_part}'
+        dynamic_part = f'oleynik+{TIME_START}'
         domain = 'alarstudios.com'
         if email is None:
             email = f"{dynamic_part}@{domain}"
         signup_data = {
-                "username": f"Bot{time_part}",
+                "username": f"Bot{TIME_START}",
                 "email": email,
                 "password": 'Password+1',
                 "agreement": "on",
-                "first_name": f"Bot{time_part}",
-                "last_name": f"AQABot{time_part}",
+                "first_name": f"Bot{TIME_START}",
+                "last_name": f"AQABot{TIME_START}",
             }
+        
         response = MyRequests.post("/auth/signup/", json=signup_data)
 
         Assertions.assert_code_status(response, 200)
@@ -38,18 +58,16 @@ class MainCase(BaseCase):
                 "access_token",
             ],
         )
-        return response
+        self.user_id = BaseCase.response_to_json(response)["user_id"]
+        self.email = BaseCase.response_to_json(response)["user"]["email"]
+        self.cookies = MainCase.cookies_marty_construction(response)
+        return self.user_id, self.email, self.cookies
 
     @classmethod
-    def cookies_marty_construction(self, response):
-        marty_session_id = self.get_cookie(self, response, "marty_session_id")
-        marty_session_id_hash = self.get_cookie(
-            self,
-            response,
-            "marty_session_id_hash"
-        )
-        cookies = {
-            "marty_session_id": marty_session_id,
-            "marty_session_id_hash": marty_session_id_hash
-        }
-        return cookies
+    def signup_router(self, email=None):
+        if self.cookies != "":
+            print('►')
+            return self.user_id, self.email, self.cookies
+        else:
+            print('◘')
+            return MainCase.signup(email)

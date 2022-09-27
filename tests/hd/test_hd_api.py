@@ -180,10 +180,10 @@ class TestHDLogin(BaseCase):
         ("unsubscribe")
     ]
 
-    response = MainCase.signup()
-    user_id = BaseCase.response_to_json(response)["user_id"]
-    email = BaseCase.response_to_json(response)["user"]["email"]
-    cookies = MainCase.cookies_marty_construction(response)
+    user_id, email, cookies = MainCase.signup_router()
+    # user_id = BaseCase.response_to_json(response)["user_id"]
+    # email = BaseCase.response_to_json(response)["user"]["email"]
+    # cookies = MainCase.cookies_marty_construction(response)
 
     @allure.label("HD", "Authorization")
     @allure.description("This test checks /happifiers+params api")
