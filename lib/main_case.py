@@ -42,7 +42,7 @@ class MainCase(BaseCase):
                 "first_name": f"Bot{TIME_START}",
                 "last_name": f"AQABot{TIME_START}",
             }
-        
+
         response = MyRequests.post("/auth/signup/", json=signup_data)
 
         Assertions.assert_code_status(response, 200)
