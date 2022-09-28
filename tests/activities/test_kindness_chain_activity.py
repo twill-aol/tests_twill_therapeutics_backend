@@ -11,7 +11,8 @@ class TestKindnessChain(BaseCase):
 
     user_id, email, cookies = MainCase.signup_router()
 
-    @allure.label("activity", "game", "authorization", "kindness chain", "kc")
+    @allure.label("activity", "game", "authorization", "kindness chain", \
+    "kc", "smoke")
     @allure.description("This test checks /api/activities \
     and api/v3/activity_status api")
     def test_kindness_chain_activity(self):

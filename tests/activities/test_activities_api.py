@@ -21,7 +21,7 @@ class TestActivitiesSkill(BaseCase):
 
     user_id, email, cookies = MainCase.signup_router()
 
-    @allure.label("activity", "authorization", "skills")
+    @allure.label("activity", "authorization", "skills", "smoke")
     @allure.description("This test checks /api/activities \
     and api/v3/activity_status api")
     @pytest.mark.parametrize("activity_type", exclude_params_subscribe)
