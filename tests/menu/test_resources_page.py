@@ -11,7 +11,7 @@ class TestResourcesPage(BaseCase):
 
     user_id, email, cookies = MainCase.signup_router()
 
-    @allure.label("menu", "page", "resources")
+    @allure.label("menu", "page", "resources", "authorization")
     @allure.description("This test checks \
     /api/get_member_resources_template/ api")
     def test_resource_page(self):

@@ -69,3 +69,14 @@ class MainCase(BaseCase):
             return self.user_id, self.email, self.cookies
         else:
             return MainCase.signup(email)
+
+    @classmethod
+    def finder_text(self, content, flag, board):
+        find_id_position = content.find(flag) + len(flag)
+        text = ""
+        for symbol in content[find_id_position:]:
+            if symbol != board:
+                text += symbol
+            else:
+                break
+        return text
