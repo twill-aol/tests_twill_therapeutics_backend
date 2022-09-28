@@ -16,5 +16,9 @@ class TestResourcesPage(BaseCase):
         response = MyRequests.get("/public/legal/")
         Assertions.assert_code_status(response, 200)
         flag_article_id = "Twill Therapeutics  |  "
-        part_of_text = MainCase.finder_text(str(response.content), flag_article_id, "</title>")
+        part_of_text = MainCase.finder_text(
+            str(response.content),
+            flag_article_id,
+            "</title>"
+        )
         assert "Legal" in part_of_text, 'Answer does not have "Legal"'
