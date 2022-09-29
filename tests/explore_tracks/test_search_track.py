@@ -1,5 +1,4 @@
 import allure
-import pytest
 from lib.assertions import Assertions
 from lib.base_case import BaseCase
 from lib.main_case import MainCase
