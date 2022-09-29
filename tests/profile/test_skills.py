@@ -32,7 +32,7 @@ class TestSkills(BaseCase):
         )
         Assertions.assert_code_status(response, 200)
         assert skill in str(response.content),\
-            "Skills don't meet expectations"
+            "Skill doesn't meet expectations"
 
         response = MyRequests.get(
             f"/api/v3/skills/{skill}/",
