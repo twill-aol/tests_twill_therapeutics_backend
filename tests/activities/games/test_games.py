@@ -26,7 +26,7 @@ class TestKindnessChain(BaseCase):
     @pytest.mark.parametrize("game_data", exclude_params_subscribe)
     def test_complete_game(self, game_data):
         f'''Get {game_data} game_id and complete it'''
-        
+
         response = MyRequests.get(
             "/api/activities/game_activity_statuses/",
             cookies=self.cookies
@@ -34,14 +34,14 @@ class TestKindnessChain(BaseCase):
         response_as_dict = self.response_to_json(response)
         game_id = response_as_dict[game_data[1]]["activity_status_id"]
         params = {
-            "is_complete":True
+            "is_complete": True
         }
         response = MyRequests.post(
             f"/api/v3/activity_status/{game_id}/",
-            json = params,
+            json=params,
             cookies=self.cookies
         )
-        Assertions.assert_code_status(response, 200)        
+        Assertions.assert_code_status(response, 200)
         Assertions.assert_json_has_keys(
             response,
             [
@@ -56,4 +56,5 @@ class TestKindnessChain(BaseCase):
         response_as_dict = self.response_to_json(response)
         points = response_as_dict["scores_old"]["points"]
         assert points > 0,\
-        f"Points of skill `{response_as_dict['scores_old']['name']}` = {points} it is < 0"
+        f"Points of skill `{response_as_dict['scores_old']['name']}` \
+        = {points} it is < 0"
