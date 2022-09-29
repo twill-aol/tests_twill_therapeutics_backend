@@ -7,7 +7,7 @@ from lib.my_requests import MyRequests
 
 
 @allure.epic("[Profile] Skills")
-class TestKindnessChain(BaseCase):
+class TestSkills(BaseCase):
     '''Tests  user's Skills'''
     exclude_params_subscribe = [
         ("SA"),
