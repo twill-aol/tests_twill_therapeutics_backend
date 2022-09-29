@@ -7,7 +7,7 @@ from lib.my_requests import MyRequests
 
 
 @allure.epic("[Activities] Games")
-class TestKindnessChain(BaseCase):
+class TestGames(BaseCase):
     '''Tests Games'''
     exclude_params_subscribe = [
         ("Uplift", 0),
