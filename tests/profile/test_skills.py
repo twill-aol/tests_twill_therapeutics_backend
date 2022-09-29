@@ -32,7 +32,8 @@ class TestKindnessChain(BaseCase):
         )
         Assertions.assert_code_status(response, 200)
         response_as_dict = self.response_to_json(response)
-        assert skill in str(response.content), "Skills don't meet expectations"
+        assert skill in str(response.content),\
+        "Skills don't meet expectations"
 
         response = MyRequests.get(
             f"/api/v3/skills/{skill}/",
