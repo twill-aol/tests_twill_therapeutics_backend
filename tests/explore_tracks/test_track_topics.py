@@ -30,7 +30,7 @@ class TestTracksTopics(BaseCase):
             "/api/v2/tracks/life-domains/",
             cookies=self.cookies
         )
-        # Assertions.assert_code_status(response, 200)
+        Assertions.assert_code_status(response, 200)
         # content = str(response.content)
         # assert topic[0] in content,\
         #     f"Topic {topic[0]} doesn't meet expectations"
