@@ -55,4 +55,4 @@ class TestKindnessChain(BaseCase):
         )
         response_as_dict = self.response_to_json(response)
         points = response_as_dict["scores_old"]["points"]
-        assert points > 0, f"Points of skill < 0"
+        assert points > 0, "Points of skill < 0"
