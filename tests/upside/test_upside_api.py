@@ -186,7 +186,7 @@ class TestUpsideLogin(BaseCase):
     @allure.description("This test checks /happifiers+params api")
     def test_hd_get_last_article_login(self):
         '''Get last article from HD with autorization'''
-        TestHDUnlogin.test_hd_get_last_article_unlogin(
+        TestUpsideUnlogin.test_hd_get_last_article_unlogin(
             self,
             cookies=self.cookies
         )
@@ -195,13 +195,13 @@ class TestUpsideLogin(BaseCase):
     @allure.description("This test checks /api/happifiers/topics/ api")
     def test_hd_get_topics_login(self):
         '''Get exists topics with authorization'''
-        TestHDUnlogin.test_hd_get_topics_unlogin(self, cookies=self.cookies)
+        TestUpsideUnlogin.test_hd_get_topics_unlogin(self, cookies=self.cookies)
 
     @allure.label("HD", "Upside", "Authorization", "smoke")
     @allure.description("This test checks /happifiers/[id] api")
     def test_hd_get_article_login(self, human_url=""):
         '''Find and Get first exists article with authorization'''
-        TestHDUnlogin.test_hd_get_article_unlogin(
+        TestUpsideUnlogin.test_hd_get_article_unlogin(
             self,
             human_url=None,
             cookies=self.cookies
@@ -211,7 +211,7 @@ class TestUpsideLogin(BaseCase):
     @allure.description("This test checks /happifiers+params api")
     def test_hd_get_count_of_topics_login(self):
         '''Get needed count of topics with authorization'''
-        TestHDUnlogin.test_hd_get_count_of_articles_unlogin(
+        TestUpsideUnlogin.test_hd_get_count_of_articles_unlogin(
             self,
             cookies=self.cookies
         )
