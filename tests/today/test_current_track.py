@@ -16,7 +16,7 @@ class TestCurrentTrack(BaseCase):
     def test_home_page(self):
         '''Get search tracks'''
         response = MyRequests.get(
-            f"/api/kabinet-homepage/",
+            "/api/kabinet-homepage/",
             cookies=self.cookies
         )
         track_id = self.response_to_json(response)["track"]["id"]
@@ -24,8 +24,8 @@ class TestCurrentTrack(BaseCase):
             f"/api/tracks/{track_id}/",
             cookies=self.cookies
         )
-        
-        response_as_dict = self.response_to_json(response)
+
+        # response_as_dict = self.response_to_json(response)
         Assertions.assert_code_status(response, 200)
         # # if track started
         # Assertions.assert_json_has_keys(

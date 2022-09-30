@@ -195,7 +195,10 @@ class TestUpsideLogin(BaseCase):
     @allure.description("This test checks /api/happifiers/topics/ api")
     def test_hd_get_topics_login(self):
         '''Get exists topics with authorization'''
-        TestUpsideUnlogin.test_hd_get_topics_unlogin(self, cookies=self.cookies)
+        TestUpsideUnlogin.test_hd_get_topics_unlogin(
+            self,
+            cookies=self.cookies
+        )
 
     @allure.label("HD", "Upside", "Authorization", "smoke")
     @allure.description("This test checks /happifiers/[id] api")
