@@ -6,15 +6,15 @@ from lib.my_requests import MyRequests
 
 
 @allure.epic("[Menu] Notifications")
-class TestResourcesPage(BaseCase):
-    '''Tests notifications page'''
+class TestNotifications(BaseCase):
+    '''Tests notifications'''
 
     user_id, email, cookies = MainCase.signup_router()
 
-    @allure.label("menu", "page", "notifications", "authorization")
+    @allure.label("menu", "smoke", "notifications", "authorization")
     @allure.description("This test checks /api/notifications/ api")
-    def test_disclaimer_page(self):
-        '''Get notifications page'''
+    def test_get_all_notifications(self):
+        '''Get all notifications'''
         response = MyRequests.get(
             "/api/notifications/",
             cookies=self.cookies
@@ -28,3 +28,16 @@ class TestResourcesPage(BaseCase):
                 "notifications"
             ]
         )
+
+    @allure.label("menu", "smoke", "notifications", "authorization")
+    @allure.description("This test checks /api/alerts/new/count/")
+    def test_notifications(self):
+        '''Get notifications'''
+        response = MyRequests.get(
+            "/api/alerts/new/count/",
+            cookies=self.cookies
+        )
+        Assertions.assert_code_status(response, 200)
+        Assertions.assert_json_has_key(response, "count")
+        count_new_notifications = self.response_to_json(response)["count"]
+        assert count_new_notifications >= 0, "Count of new notifications < 0"
