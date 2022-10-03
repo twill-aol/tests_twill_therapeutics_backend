@@ -31,8 +31,8 @@ class TestNotifications(BaseCase):
 
     @allure.label("menu", "smoke", "notifications", "authorization")
     @allure.description("This test checks /api/alerts/new/count/")
-    def test_notifications(self):
-        '''Get notifications'''
+    def test_new_notifications(self):
+        '''Get new notifications'''
         response = MyRequests.get(
             "/api/alerts/new/count/",
             cookies=self.cookies
