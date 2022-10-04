@@ -25,46 +25,53 @@ class TestCommunity(BaseCase):
         Assertions.assert_code_status(response, 200)
         response_as_dict = BaseCase.response_to_json(response)
         if len(response_as_dict) > 0:
-            self.about_item_id = response_as_dict[0]["id"]
-            self.offender_user_id = response_as_dict[0]["user_id"]
-            print(self.about_item_id, self.offender_user_id)
+            TestCommunity.about_item_id = response_as_dict[0]["id"]
+            TestCommunity.offender_user_id = response_as_dict[0]["user_id"]
 
     @allure.label("community", "post", "popular", "authorization")
     @allure.description("This test checks /api/report_abuse/ api")
     def test_report_post(self):
         '''Report post'''
-        params = {
-            "abuse_type": "post",
-            "about_item_id": self.about_item_id,
-            "offender_user_id": self.offender_user_id
-        }
-        response = MyRequests.post(
-            "/api/report_abuse/",
-            json=params,
-            cookies=self.cookies
-        )
-        # Assertions.assert_code_status(response, 200)
-        # Assertions.assert_json_has_keys(
-        #     response,
-        #     [
-        #         "id",
-        #         "text",
-        #         "about_item_id"
-        #         "reporter_user_id"
-        #         "offenderer_user_id"
-        #         "abuse_type"
-        #         "created_at"
-        #     ]
-        # )
-        # Assertions.assert_json_value_by_name(response, "about_item_id", self.about_item_id)
-        # Assertions.assert_json_value_by_name(response, "reporter_user_id", self.user_id)
-        # Assertions.assert_json_value_by_name(response, "reporter_user_id", self.offender_user_id)
-
+        if self.about_item_id != "":
+            params = {
+                "abuse_type": "post",
+                "about_item_id": self.about_item_id,
+                "offender_user_id": self.offender_user_id
+            }
+            response = MyRequests.post(
+                "/api/report_abuse/",
+                json=params,
+                cookies=self.cookies
+            )
+            Assertions.assert_code_status(response, 200)
+            Assertions.assert_json_has_keys(
+                response,
+                [
+                    "id",
+                    "text",
+                    "about_item_id",
+                    "reporter_user_id",
+                    "offenderer_user_id",
+                    "abuse_type",
+                    "created_at"
+                ]
+            )
         
-# {"id":2348,
-# "text":null,
-# "about_item_id":52651040,
-# "reporter_user_id":3308529,
-# "offenderer_user_id":3310007,
-# "abuse_type":"post",
-# "created_at":"2022-10-03T15:00:00Z"}
+        Assertions.assert_json_value_by_name(
+            response,
+            "about_item_id",
+            self.about_item_id,
+            f"Field `about_item_id` != {self.about_item_id}"
+        )
+        Assertions.assert_json_value_by_name(
+            response,
+            "reporter_user_id",
+            self.user_id,
+            f"Field `reporter_user_id` != {self.user_id}"
+        )
+        Assertions.assert_json_value_by_name(
+            response,
+            "offenderer_user_id",
+            self.offender_user_id,
+            f"Field `offenderer_user_id` != {self.offender_user_id}"
+        )
