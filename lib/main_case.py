@@ -121,7 +121,7 @@ class MainCase(BaseCase):
         signup_data = {
             "username": MainCase.generate_names(),
             "email": email,
-            "password": 'Password+1',
+            "password": "Password+1",
             "agreement": "on",
             "first_name": f"Bot{TIME_START}",
             "last_name": f"AQABot{TIME_START}",

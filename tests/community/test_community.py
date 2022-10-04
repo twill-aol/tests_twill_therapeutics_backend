@@ -6,7 +6,7 @@ from lib.main_case import MainCase
 from lib.my_requests import MyRequests
 
 
-@allure.epic("[Community] posts")
+@allure.epic("[Community] Posts")
 class TestCommunity(BaseCase):
     '''Tests Community posts'''
 
