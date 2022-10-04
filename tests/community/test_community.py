@@ -56,7 +56,7 @@ class TestCommunity(BaseCase):
                     "created_at"
                 ]
             )
-        
+
         Assertions.assert_json_value_by_name(
             response,
             "about_item_id",
