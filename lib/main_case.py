@@ -32,6 +32,7 @@ class MainCase(BaseCase):
     @classmethod
     def generate_names(self):
         names = (
+            "Patrick",
             "Ethan",
             "Kevin",
             "Justin",
@@ -40,6 +41,7 @@ class MainCase(BaseCase):
             "Christopher",
             "Anthony",
             "Ryan",
+            "Michael",
             "Nicholas",
             "David",
             "Alex",
@@ -81,6 +83,10 @@ class MainCase(BaseCase):
             "Katherine"
         )
         surnames = (
+            "Hampton",
+            "Hudson",
+            "Jordan",
+            "Stewart",
             "Johnson",
             "Brown",
             "Walker",
@@ -107,7 +113,11 @@ class MainCase(BaseCase):
             "Lewis",
             "Lee",
             "Allen",
-            "King"
+            "King",
+            "Aaronson",
+            "Cave",
+            "Carter",
+            "Watson"
         )
         names = f"{random.choice(names)} {random.choice(surnames)}"
         return names
