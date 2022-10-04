@@ -75,3 +75,31 @@ class TestCommunity(BaseCase):
             self.offender_user_id,
             f"Field `offenderer_user_id` != {self.offender_user_id}"
         )
+
+    @allure.label("community", "post", "track", "authorization")
+    @allure.description("This test checks \
+    /api/activity/?page=1&page_size=12&feed_filter=trackGroup")
+    def test_community_track_posts(self):
+        '''Get track posts in Community'''
+        response = MyRequests.get(
+            "/api/activity/?page=1&page_size=12&feed_filter=trackGroup",
+            cookies=self.cookies
+        )
+        Assertions.assert_code_status(response, 200)
+        response_as_dict = BaseCase.response_to_json(response)
+        if len(response_as_dict) > 0:
+            assert ("id" and "user_id") in response_as_dict[0]
+
+    @allure.label("community", "post", "followers", "authorization")
+    @allure.description("This test checks \
+    //api/activity/?page=1&page_size=12&feed_filter=followers")
+    def test_community_followers_posts(self):
+        '''Get followers posts in Community'''
+        response = MyRequests.get(
+            "/api/activity/?page=1&page_size=12&feed_filter=followers",
+            cookies=self.cookies
+        )
+        Assertions.assert_code_status(response, 200)
+        response_as_dict = BaseCase.response_to_json(response)
+        if len(response_as_dict) > 0:
+            assert ("id" and "user_id") in response_as_dict[0]
