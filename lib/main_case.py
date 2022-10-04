@@ -37,7 +37,7 @@ class MainCase(BaseCase):
             "Justin",
             "Matthew",
             "William",
-            "Christopher", 
+            "Christopher",
             "Anthony",
             "Ryan",
             "Nicholas",
