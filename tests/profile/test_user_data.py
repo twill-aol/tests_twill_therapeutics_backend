@@ -41,6 +41,6 @@ class TestUserData(BaseCase):
             [
                "id",
                "composite_id",
-               "created_at" 
+               "created_at"
             ]
         )
