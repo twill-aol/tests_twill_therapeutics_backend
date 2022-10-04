@@ -30,7 +30,7 @@ class TestCommunity(BaseCase):
             post_num = random.randint(0, len(response_as_dict)-1)
             TestCommunity.post_id = response_as_dict[post_num]["id"]
             TestCommunity.offender_user_id = \
-            response_as_dict[post_num]["user_id"]
+                response_as_dict[post_num]["user_id"]
 
     @allure.label("community", "post", "popular", "authorization")
     @allure.description("This test checks /api/report_abuse/ api")
