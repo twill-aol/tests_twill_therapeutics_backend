@@ -29,7 +29,8 @@ class TestCommunity(BaseCase):
         if len(response_as_dict) > 0:
             post_num = random.randint(0, len(response_as_dict)-1)
             TestCommunity.post_id = response_as_dict[post_num]["id"]
-            TestCommunity.offender_user_id = response_as_dict[post_num]["user_id"]
+            TestCommunity.offender_user_id = \
+            response_as_dict[post_num]["user_id"]
 
     @allure.label("community", "post", "popular", "authorization")
     @allure.description("This test checks /api/report_abuse/ api")
@@ -152,7 +153,7 @@ class TestCommunity(BaseCase):
             response,
             "is_liked_by_me",
             True,
-            f"`Like_status` of comment is no `True`"
+            "`Like_status` of comment is no `True`"
         )
 
     @allure.label("community", "post", "unlike", "authorization")
@@ -165,12 +166,11 @@ class TestCommunity(BaseCase):
             cookies=self.cookies
         )
         Assertions.assert_code_status(response, 200)
-        response_as_dict = BaseCase.response_to_json(response)
         Assertions.assert_json_value_by_name(
             response,
             "is_liked_by_me",
             False,
-            f"`Like_status` of comment is no `False`"
+            "`Like_status` of comment is no `False`"
         )
 
     @allure.label("community", "comment", "like", "authorization")
@@ -187,7 +187,7 @@ class TestCommunity(BaseCase):
             response,
             "is_liked_by_me",
             True,
-            f"`Like_status` of comment is no `True`"
+            "`Like_status` of comment is no `True`"
         )
 
     @allure.label("community", "comment", "unlike", "authorization")
@@ -200,10 +200,9 @@ class TestCommunity(BaseCase):
             cookies=self.cookies
         )
         Assertions.assert_code_status(response, 200)
-        response_as_dict = BaseCase.response_to_json(response)
         Assertions.assert_json_value_by_name(
             response,
             "is_liked_by_me",
             False,
-            f"`Like_status` of comment is no `False`"
+            "`Like_status` of comment is no `False`"
         )
