@@ -1,4 +1,5 @@
 import allure
+import random
 from lib.assertions import Assertions
 from lib.base_case import BaseCase
 from lib.main_case import MainCase
@@ -12,6 +13,7 @@ class TestCommunity(BaseCase):
     user_id, email, cookies = MainCase.signup_router()
     post_id = ""
     offender_user_id = ""
+    comment_id = ""
 
     @allure.label("community", "post", "popular", "authorization")
     @allure.description("This test checks \
@@ -25,8 +27,9 @@ class TestCommunity(BaseCase):
         Assertions.assert_code_status(response, 200)
         response_as_dict = BaseCase.response_to_json(response)
         if len(response_as_dict) > 0:
-            TestCommunity.post_id = response_as_dict[0]["id"]
-            TestCommunity.offender_user_id = response_as_dict[0]["user_id"]
+            post_num = random.randint(0, len(response_as_dict)-1)
+            TestCommunity.post_id = response_as_dict[post_num]["id"]
+            TestCommunity.offender_user_id = response_as_dict[post_num]["user_id"]
 
     @allure.label("community", "post", "popular", "authorization")
     @allure.description("This test checks /api/report_abuse/ api")
@@ -106,7 +109,7 @@ class TestCommunity(BaseCase):
 
     @allure.label("community", "post", "comment", "authorization")
     @allure.description("This test checks \
-    /api/activity_statuses/52650445/comments/")
+    /api/activity_statuses/{`post_id`}/comments/")
     def test_send_comment_to_post(self):
         '''Send comment to post in Community'''
         text = MainCase.good_phrases()
@@ -118,6 +121,7 @@ class TestCommunity(BaseCase):
             json=data,
             cookies=self.cookies
         )
+
         Assertions.assert_code_status(response, 200)
         Assertions.assert_json_value_by_name(
             response,
@@ -125,7 +129,81 @@ class TestCommunity(BaseCase):
             text,
             f"Comment is no {text}"
         )
+        response_as_dict = BaseCase.response_to_json(response)
+        TestCommunity.comment_id = response_as_dict["id"]
+        Assertions.assert_json_value_by_name(
+            response,
+            "creator_user_id",
+            self.user_id,
+            f"Creator_id is no {self.user_id}"
+        )
 
-# /api/activity_statuses/52651040/like/
-# /api/comments/433197/like/
-# post and delete empty data
+    @allure.label("community", "post", "like", "authorization")
+    @allure.description("This test checks \
+    /api/activity_statuses/{`post_id`}/like/")
+    def test_community_like_post(self):
+        '''Like post in Community'''
+        response = MyRequests.post(
+            f"/api/activity_statuses/{self.post_id}/like/",
+            cookies=self.cookies
+        )
+        Assertions.assert_code_status(response, 200)
+        Assertions.assert_json_value_by_name(
+            response,
+            "is_liked_by_me",
+            True,
+            f"`Like_status` of comment is no `True`"
+        )
+
+    @allure.label("community", "post", "unlike", "authorization")
+    @allure.description("This test checks \
+    /api/activity_statuses/{`post_id`}/like/")
+    def test_community_unlike_post(self):
+        '''Unlike post in Community'''
+        response = MyRequests.delete(
+            f"/api/activity_statuses/{self.post_id}/like/",
+            cookies=self.cookies
+        )
+        Assertions.assert_code_status(response, 200)
+        response_as_dict = BaseCase.response_to_json(response)
+        Assertions.assert_json_value_by_name(
+            response,
+            "is_liked_by_me",
+            False,
+            f"`Like_status` of comment is no `False`"
+        )
+
+    @allure.label("community", "comment", "like", "authorization")
+    @allure.description("This test checks \
+    /api/comments/{`comment_id`}/like/")
+    def test_community_like_comment(self):
+        '''Like comment in Community'''
+        response = MyRequests.post(
+            f"/api/comments/{self.comment_id}/like/",
+            cookies=self.cookies
+        )
+        Assertions.assert_code_status(response, 200)
+        Assertions.assert_json_value_by_name(
+            response,
+            "is_liked_by_me",
+            True,
+            f"`Like_status` of comment is no `True`"
+        )
+
+    @allure.label("community", "comment", "unlike", "authorization")
+    @allure.description("This test checks \
+    /api/comments/{`comment_id`}/like/")
+    def test_community_unlike_comment(self):
+        '''Unlike comment in Community'''
+        response = MyRequests.delete(
+            f"/api/comments/{self.comment_id}/like/",
+            cookies=self.cookies
+        )
+        Assertions.assert_code_status(response, 200)
+        response_as_dict = BaseCase.response_to_json(response)
+        Assertions.assert_json_value_by_name(
+            response,
+            "is_liked_by_me",
+            False,
+            f"`Like_status` of comment is no `False`"
+        )

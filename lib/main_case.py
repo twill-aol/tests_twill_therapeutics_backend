@@ -5,7 +5,7 @@ from lib.base_case import BaseCase
 from lib.my_requests import MyRequests
 
 
-TIME_START = str(dt.datetime.now().strftime("%Y%m%d%H%M%S"))
+TIME_START = str(dt.datetime.now().strftime("%Y%m%d%H%M"))
 
 
 class MainCase(BaseCase):
@@ -114,18 +114,18 @@ class MainCase(BaseCase):
 
     @classmethod
     def signup(self, email=None):
-        dynamic_part = f'oleynik+{TIME_START}'
+        dynamic_part = f'oleynik+bot{TIME_START}'
         domain = 'alarstudios.com'
         if email is None:
             email = f"{dynamic_part}@{domain}"
         signup_data = {
-                "username": MainCase.generate_names(),
-                "email": email,
-                "password": 'Password+1',
-                "agreement": "on",
-                "first_name": f"Bot{TIME_START}",
-                "last_name": f"AQABot{TIME_START}",
-            }
+            "username": MainCase.generate_names(),
+            "email": email,
+            "password": 'Password+1',
+            "agreement": "on",
+            "first_name": f"Bot{TIME_START}",
+            "last_name": f"AQABot{TIME_START}",
+        }
 
         response = MyRequests.post("/auth/signup/", json=signup_data)
 
