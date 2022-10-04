@@ -44,7 +44,8 @@ class TestHA(BaseCase):
                     "turn_number"
                 ]
             )
-            conversation_id = BaseCase.response_to_json(response)["conversation_id"]
+            conversation_id = \
+                BaseCase.response_to_json(response)["conversation_id"]
             data = {
                 "client_input": str(random.randint(1, 4)),
                 "conversation_id": conversation_id
