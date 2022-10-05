@@ -5,7 +5,7 @@ from lib.base_case import BaseCase
 from lib.my_requests import MyRequests
 
 
-TIME_START = str(dt.datetime.now().strftime("%Y%m%d%H%M"))
+TIME_START = str(dt.datetime.now().strftime("%Y%m%d%H%M"))[2:]
 
 
 class MainCase(BaseCase):
