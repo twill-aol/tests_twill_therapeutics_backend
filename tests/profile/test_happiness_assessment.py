@@ -28,7 +28,8 @@ class TestHA(BaseCase):
                 "dialog"
             ]
         )
-        TestHA.ha_id = BaseCase.response_to_json(response)["dialog"]["dialog_id"]
+        TestHA.ha_id = \
+            BaseCase.response_to_json(response)["dialog"]["dialog_id"]
         return response
 
     @allure.label("ha", "assessment", "profile", "smoke", "authorization")
