@@ -165,15 +165,11 @@ class MainCase(BaseCase):
             return MainCase.signup(email)
 
     @classmethod
-    def finder_text(self, content, flag, board):
-        find_id_position = content.find(flag) + len(flag)
-        text = ""
-        for symbol in content[find_id_position:]:
-            if symbol != board:
-                text += symbol
-            else:
-                break
-        return text
+    def finder_text(content, flag, board):
+        left_id_position = content.find(flag) + len(flag)
+        right_id_position = content[left_id_position : ].find(board) + left_id_position
+        text = content[left_id_position : right_id_position]
+        return text  # , right_id_position
 
     @classmethod
     def good_phrases(self):
